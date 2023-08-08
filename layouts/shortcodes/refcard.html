@@ -1,0 +1,33 @@
+{{/* layouts/shortcodes/refcard.html */}}
+{{ $page := site.GetPage (.Get 0) }}
+{{ with $page }}
+{{ $cover_photo := $page.Resources.GetMatch "cover-photo.png" }}
+  <div class="blog-card">
+    <div class="meta">
+      <div class="photo">
+        <img src="data:{{ $cover_photo.MediaType.Type }};base64, {{ $cover_photo.Content | base64Encode }}"></img>
+      </div>
+      <ul class="details">
+        <li class="author" style="color: white;">Approx. {{ .FuzzyWordCount }} word</li>
+        <li class="date" style="color: white;">{{ .PublishDate | time.Format (default "January 2, 2006" )}}</li>
+        <li class="tags" style="color: white;">
+          <ul>
+            {{ range .GetTerms "tags" }}
+              <li>
+                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+              </li>
+            {{ end }}
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="description">
+      <h1>{{ .Title }}</h1>
+      <h2>Read Time: {{ .ReadingTime }} min</h2>
+      <p> {{ .Description }}</p>
+      <p class="read-more">
+        <a href="{{ $page.Permalink }}">Read More</a>
+      </p>
+    </div>
+  </div>
+{{ end }}
