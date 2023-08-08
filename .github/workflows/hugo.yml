@@ -54,7 +54,7 @@ jobs:
         uses: actions/checkout@master
         with:
           repository: adityatelange/hugo-PaperMod
-          ref: refs/heads/release
+          ref: master
           path: themes/PaperMod
       - name: Build with Hugo
         env:
