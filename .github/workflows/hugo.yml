@@ -50,6 +50,12 @@ jobs:
         uses: actions/configure-pages@v3
       - name: Install Node.js dependencies
         run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
+      - name: Clone PaperMod Hugo Theme
+        - uses: actions/checkout@master
+          with:
+            repository: adityatelange/hugo-PaperMod
+            ref: refs/heads/release
+            path: themes/PaperMod
       - name: Build with Hugo
         env:
           # For maximum backward compatibility with Hugo modules
