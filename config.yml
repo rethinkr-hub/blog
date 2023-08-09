@@ -1,4 +1,4 @@
-baseURL: "https://examplesite.com/"
+baseURL: "https://rethinkr-hub.github.io/blog/"
 title: Rethinkr    
 paginate: 5
 theme: ["PaperMod"]
@@ -27,7 +27,7 @@ params:
   mainSections: ["data-simulators", "pub-sub"]
   author: Jason Grein
   # author: ["Me", "You"] # multiple authors
-  images: ["img/home-logo.png"]
+  images: ["img/blog-home-logo.png"]
   DateFormat: "January 2, 2006"
   defaultTheme: auto # dark, light
   disableThemeToggle: false
@@ -60,7 +60,7 @@ params:
 
   label:
     text: "Home"
-    icon: /img/nav-logo.png
+    icon: /img/blog-nav-logo.png
     iconHeight: 40
 
   # profile-mode
@@ -68,7 +68,7 @@ params:
     enabled: false # needs to be explicitly set
     title: Rethinkr Blog
     subtitle: "Rethinking Data Architecture with Reproducible Examples"
-    imageUrl: "/img/home-logo.png"
+    imageUrl: "/img/blog-home-logo.png"
     imageWidth: 120
     imageHeight: 120
     imageTitle: Rethinkr Logo
@@ -105,7 +105,7 @@ params:
     hiddenInSingle: false # hide on single page
 
   editPost:
-    URL: "https://github.com/<path_to_repo>/content"
+    URL: "https://github.com/rethinkr-hub/blog/content"
     Text: "Suggest Changes" # edit text
     appendFilePath: true # to append file path to Edit link
 
