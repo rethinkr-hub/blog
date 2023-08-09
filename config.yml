@@ -27,7 +27,7 @@ params:
   mainSections: ["data-simulators", "pub-sub"]
   author: Jason Grein
   # author: ["Me", "You"] # multiple authors
-  images: ["blog/img/blog-home-logo.png"]
+  images: ["img/blog-home-logo.png"]
   DateFormat: "January 2, 2006"
   defaultTheme: auto # dark, light
   disableThemeToggle: false
@@ -60,7 +60,7 @@ params:
 
   label:
     text: "Home"
-    icon: blog/img/blog-nav-logo.png
+    icon: img/blog-nav-logo.png
     iconHeight: 40
 
   # profile-mode
@@ -68,7 +68,7 @@ params:
     enabled: false # needs to be explicitly set
     title: Rethinkr Blog
     subtitle: "Rethinking Data Architecture with Reproducible Examples"
-    imageUrl: "blog/img/blog-home-logo.png"
+    imageUrl: "img/blog-home-logo.png"
     imageWidth: 120
     imageHeight: 120
     imageTitle: Rethinkr Logo
@@ -89,7 +89,7 @@ params:
     - name: stackoverflow
       url: "https://stackoverflow.com"
     - name: github
-      url: "https://github.com/"
+      url: "https://github.com/rethinkr-hub/blog"
 
   analytics:
     google:
