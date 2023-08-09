@@ -1,7 +1,7 @@
 ---
 title: "Publish Subscribe - Redis"
 date: "2023-07-25"
-draft: true
+draft: false
 tags: ["Redis", "Pub/Sub"]
 author: "Jason Grein"
 description: "Evaluating Redis for Publish Subscribe Functionality"
@@ -15,7 +15,7 @@ cover:
 showToc: true
 TocOpen: false
 hidemeta: false
-comments: false
+comments: true
 
 disableShare: false
 disableHLJS: false

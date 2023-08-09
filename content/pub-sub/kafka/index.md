@@ -1,7 +1,7 @@
 ---
 title: "Message Queue - Kafka"
 date: "2023-07-27"
-draft: true
+draft: false
 tags: ["Kafka", "Message Queue"]
 author: "Jason Grein"
 description: "Optimized Message Queue for Streaming Data"
@@ -15,7 +15,7 @@ cover:
 showToc: true
 TocOpen: false
 hidemeta: false
-comments: false
+comments: true
 
 disableShare: false
 disableHLJS: false

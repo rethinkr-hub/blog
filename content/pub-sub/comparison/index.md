@@ -1,7 +1,7 @@
 ---
 title: "Publish Subscribe - Interchangeable Patterns for Evaluating Open Source Services"
 date: "2023-07-15"
-draft: true
+draft: false
 tags: ["Logging Transport", "Pub/Sub"]
 author: "Jason Grein"
 description: "Design Pattern for interchanging Pub/Sub Services"
@@ -15,7 +15,7 @@ cover:
 showToc: true
 TocOpen: false
 hidemeta: false
-comments: false
+comments: true
 
 disableShare: false
 disableHLJS: false

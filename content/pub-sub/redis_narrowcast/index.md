@@ -1,7 +1,7 @@
 ---
 title: "Publish Subscribe - Redis Narrowcast"
 date: "2023-07-26"
-draft: true
+draft: false
 tags: ["Redis", "Pub/Sub", "Narrowcast"]
 author: "Jason Grein"
 description: "Pushing Redis Closer to a Proper Pub/Sub Messaging Service"
@@ -15,7 +15,7 @@ cover:
 showToc: true
 TocOpen: false
 hidemeta: false
-comments: false
+comments: true
 
 disableShare: false
 disableHLJS: false

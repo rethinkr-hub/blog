@@ -1,7 +1,7 @@
 ---
 title: "Message Queue - RabbitMQ"
 date: "2023-07-26"
-draft: true
+draft: false
 tags: ["RabbitMQ", "Message Queue"]
 author: "Jason Grein"
 description: "Introduction to the Message Queue"
@@ -15,7 +15,7 @@ cover:
 showToc: true
 TocOpen: false
 hidemeta: false
-comments: false
+comments: true
 
 disableShare: false
 disableHLJS: false
