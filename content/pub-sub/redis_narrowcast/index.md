@@ -51,20 +51,20 @@ Redis memory cache is a high-performance, in-memory data structure store that se
 
 ## Install
 
-Clone this repository to local computer **[py-superhero-pubsub](https://github.com/jg-ghub/py-superhero-pubsub)** {{< svg-icon "github" >}}
+Clone this repository to local computer **[py-superhero-pubsub](https://github.com/jg-ghub/py-superhero-pubsub)** {{< svg-icon "github-icon" >}}
 ```bash
 git clone https://github.com/jg-ghub/py-superhero-pubsub
 ```
 
 ## Services
-{{< details "Schematic" >}}
+{{< details header="Schematic" icon="icons/flow-icon.svg" >}}
   {{< get-html "content/pub-sub/redis-narrowcast/worker-schematic.html" >}}
 {{</ details >}}
 
 ### Worker
 
 **Description**
-{{< details "Github Code" >}}
+{{< details header="Github Code" icon="icons/github-icon.svg" >}}
   {{< get-script "https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjg-ghub%2Fpy-superhero-pubsub%2Fblob%2Fmain%2Fredis-fanout%2Fworker_fanout.py&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on" >}}
 {{</ details >}}
 
@@ -82,7 +82,7 @@ To test/debug the worker service, we can start up the services required to begin
 ```bash
 export $(cat redis_narrowcast/.env) && \
 export PLAYERS=10 && \
-docker-compose -f redis_narrowcast/compose/docker-compose.redis-narrowcast.yml up -d redis build_db superhero_server superhero_nginx player --scale player=${PLAYERS}
+docker compose -f redis_narrowcast/compose/docker-compose.redis-narrowcast.yml up -d redis build_db superhero_server superhero_nginx player --scale player=${PLAYERS}
 ```
 
 Then we can begin deploying worker services locally for debugging with
@@ -108,8 +108,8 @@ Spinning up a production application with docker-compose is simple. Follow the c
 
 ```bash
 export PLAYERS=10
-docker-compose --env-file redis_narrowcast/.env -f redis_narrowcast/compose/docker-compose.redis-narrowcast.yml build && \
-docker-compose --env-file redis_narrowcast/.env -f redis_narrowcast/compose/docker-compose.redis-narrowcast.yml up --scale player=${PLAYERS}
+docker compose --env-file redis_narrowcast/.env -f redis_narrowcast/compose/docker-compose.redis-narrowcast.yml build && \
+docker compose --env-file redis_narrowcast/.env -f redis_narrowcast/compose/docker-compose.redis-narrowcast.yml up --scale player=${PLAYERS}
 ```
 
 Running this application on a local environment, using a small amount of Player Services, provides a similar result set to the previous test with Redis native Pub/Sub. This is good as the middleware is working without scale.
@@ -117,15 +117,15 @@ Running this application on a local environment, using a small amount of Player 
 Next we need to be able to scale the Deployment with multiple workers. We can deploy a similar trial experiment by running a [Product Deployment](#production-deployment---multiple-workers) with multiple workers listening to a middleware Narrowcaster. We can scale the workers with the following
 
 ### Production Deployment - Multiple Workers
-{{< details "Video Demonstration" >}}
+{{< details header="Video Demonstration" icon="icons/video-icon.svg" >}}
   {{< google-drive-video "1BKw4PlDsoYeGXnM7nGaexGigN_aTVLVL" >}}
 {{< /details >}}
 
 ```bash
 export PLAYERS=10
 export WORKERS=4
-docker-compose --env-file redis_narrowcast/.env -f redis_narrowcast/compose/docker-compose.redis-narrowcast.yml build && \
-docker-compose --env-file redis_narrowcast/.env -f redis_narrowcast/compose/docker-compose.redis-narrowcast.yml up --scale worker=${WORKERS} --scale player=${PLAYERS}
+docker compose --env-file redis_narrowcast/.env -f redis_narrowcast/compose/docker-compose.redis-narrowcast.yml build && \
+docker compose --env-file redis_narrowcast/.env -f redis_narrowcast/compose/docker-compose.redis-narrowcast.yml up --scale worker=${WORKERS} --scale player=${PLAYERS}
 ```
 
 This trial run has observed some positive results!

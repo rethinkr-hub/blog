@@ -67,23 +67,25 @@ More details on Redis commands can be found in
 
 ## Install
 
-Clone this repository to local computer **[py-superhero](https://github.com/jg-ghub/py-superhero)** {{< svg-icon "github" >}}
+Clone this repository to local computer **[py-superhero](https://github.com/jg-ghub/py-superhero)** {{< svg-icon "github-icon" >}}
 ```bash
 git clone https://github.com/jg-ghub/py-superhero
 ```
 
 Next, register at [Super Hero API](https://www.superheroapi.com/?ref=rethinkr.ghost.io) to acquire a token in order to pull their Super Hero repository into the Data Simulator staging steps. Their API is free to register with, and a special thanks to this team for allowing free public use of their API!
 
-Once an API token has been successfully acquired from Super Hero API, add it to the .env file in the root folder of `py-superhero` pulled from github earlier.
+Once an API token has been successfully acquired from Super Hero API, add it to the .env file in the root folder of `py-superhero` pulled from github earlier, and then run the build_db process prior to Docker build so we don't need to pull the Super Hero attribute via API list each time the service starts (which is time consuming).
 ```bash
 cd py-superhero
 echo API_TOKEN=*[INSERT API TOKEN HERE]* > .env
+
+python3 build_db.py
 ```
 
 ## Services
 
 ### Servers
-{{< details "Schematic" >}}
+{{< details header="Schematic" icon="icons/flow-icon.svg" >}}
   {{< get-html "content/data-simulators/superhero-combat/player-server-schematic.html" >}}
 {{< /details >}}
 
@@ -97,7 +99,7 @@ Upon completion of the game, the server will call all participants to indicate t
 **Local Deployment**
 To test/debug these services, each service can be started locally by executing the script in bash. A Redis service must be running, and can easily be started separately from the other docker services. The following commands will have the server application running locally
 ```bash
-docker-compose -f compose/docker-compose.prod.yml up -d redis && \
+docker compose -f compose/docker-compose.prod.yml up -d redis && \
 export $(cat .env) && \
 python3 build_db.py && \
 python3 server.py
@@ -106,7 +108,7 @@ python3 server.py
 The server will sit idle waiting to players to communicate. We can scale some players to initiate communication with the local server with docker-compose
 ```bash
 export PLAYERS=10
-docker-compose --env-file .env \
+docker compose --env-file .env \
   -f compose/docker-compose.prod.yml up \
   --scale player=${PLAYERS}
 ```
@@ -121,7 +123,7 @@ The user picks an action to send to the server, and then waits for the outcome o
 **Local Deployment**
 We can start the required services with the following, and run some player instances locally with the following
 ```bash
-docker-compose --env-file .env \
+docker compose --env-file .env \
   -f compose/docker-compose.prod.yml up \
   -d redis build_db server &&
 export $(cat .env) && python3 client.py
@@ -133,7 +135,7 @@ export $(cat .env) && python3 client.py
 ```
 
 ### Workers
-{{< details "Schematic" >}}
+{{< details header="Schematic" icon="icons/flow-icon.svg" >}}
   {{< get-html "content/data-simulators/superhero-combat/db-cache-schematic.html" >}}
 {{< /details >}}
 
@@ -145,7 +147,7 @@ This worker has incredibly simple tasks for the purpose of illustrating the nati
 **Local Deployment**
 To begin fanning out messages to the workers locally, we can initialize a session with
 ```bash
-docker-compose --env-file .env \
+docker compose --env-file .env \
   -f compose/docker-compose.prod.yml up \
   -d redis build_db server
 ```
@@ -158,7 +160,7 @@ export $(cat .env) && python3 worker.py
 Once the workers are actively listening to Redis, we can deploy players to start the combat
 ```bash
 export PLAYERS=10 && \
-docker-compose --env-file .env \
+docker compose --env-file .env \
   -f compose/docker-compose.prod.yml up \
   -d player \
   --scale player=${PLAYERS}
@@ -183,16 +185,16 @@ export $(cat .env) && python3 build_db.py pull
 ## Objective
 
 ### Free Data Simulator
-{{< details "Video Demonstration" >}}
+{{< details header="Video Demonstration" >}}
   {{< google-drive-video "1SktxT6KKz82M48WZAtG3vI9K-R9sn584" >}}
 {{< /details >}}
 
 We now have the means to generate some streaming data with this Super Hero Combat Data Simulator at no expense. Spinning up a local application with docker-compose is simple. Follow the commands below, replacing `${PLAYERS}` with the required participants.
 ```bash
 export PLAYERS=10
-docker-compose --env-file .env \
+docker compose --env-file .env \
   -f compose/docker-compose.prod.yml build && \
-docker-compose --env-file .env \
+docker compose --env-file .env \
   -f compose/docker-compose.prod.yml up \
   --scale player=${PLAYERS}
 ```
@@ -200,16 +202,16 @@ We can even load balance the server with the following
 ```bash
 export PLAYERS=10
 export LOADBALANCE=3
-docker-compose --env-file .env \
+docker compose --env-file .env \
   -f compose/docker-compose.prod.yml build && \
-docker-compose --env-file .env \
+docker compose --env-file .env \
   -f compose/docker-compose.prod.yml up \
   --scale superhero_server=${LOADBALANCE} \
   --scale player=${PLAYERS}
 ```
 
 ### Redis
-{{< details "Video Demonstration" >}}
+{{< details header="Video Demonstration" >}}
   {{< google-drive-video "16H3IV7iXzJSCfrYDcbzzjagzMZv94f9p" >}}
 {{< /details >}}
 

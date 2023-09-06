@@ -51,20 +51,20 @@ The generation of data is possible via the logging message transport. The Data S
 
 ## Install
 
-Clone this repository to local computer **[py-superhero-pubsub](https://github.com/jg-ghub/py-superhero-pubsub)** {{< svg-icon "github" >}}
+Clone this repository to local computer **[py-superhero-pubsub](https://github.com/jg-ghub/py-superhero-pubsub)** {{< svg-icon "github-icon" >}}
 ```bash
 git clone https://github.com/jg-ghub/py-superhero-pubsub
 ```
 
 ## Services
-{{< details "Schematic" >}}
+{{< details header="Schematic" icon="icons/flow-icon.svg" >}}
   {{< get-html "content/pub-sub/rabbitmq/worker-schematic.html" >}}
 {{</ details >}}
 
 ### Worker
 
 **Description**
-{{< details "Github Code" >}}
+{{< details header="Github Code" icon="icons/github-icon.svg" >}}
   {{< get-script "https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjg-ghub%2Fpy-superhero-pubsub%2Fblob%2Fmain%2Frabbitmq%2Flib%2Futils%2Floggers%2Frabbit.py&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on" >}}
 {{</ details >}}
 
@@ -84,12 +84,12 @@ asyncio.create_task(publisher.connect())
 ```
 
 The Producer and Consumer classes can be found in the `lib.pubsub.rabbit` module. Notice how the `Rabbit_Consumer` class has been designed with `callback_func` so we can easily plug-and-play the original data ingestion pipeline, which follows the [Factory Method](/pub-sub/redis#worker) pattern we discussed in earlier articles.
-{{< details "Github Code">}}
+{{< details header="Github Code" icon="icons/github-icon.svg" >}}
   {{< get-script "https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjg-ghub%2Fpy-superhero-pubsub%2Fblob%2Fmain%2Frabbitmq%2Flib%2Fpubsub%2Frabbit.py&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on" >}}
 {{</ details >}}
 
 This allows us to use the same data ingestion pipeline for storing game state from Redis to our local data sink.
-{{< details "Github Code" >}}
+{{< details header="Github Code" icon="icons/github-icon.svg" >}}
   {{< get-script "https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjg-ghub%2Fpy-superhero-pubsub%2Fblob%2Fmain%2Frabbitmq%2Fworker.py&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on" >}}
 {{</ details >}}
 
@@ -99,7 +99,7 @@ To test/debug the worker service, we can start up the services required to begin
 ```bash
 export $(cat rabbitmq/.env) && \
 export PLAYERS=10 && \
-docker-compose -f rabbitmq/compose/docker-compose.rabbitmq.yml up -d redis rabbit build_db superhero_server superhero_nginx player --scale player=${PLAYERS}
+docker compose -f rabbitmq/compose/docker-compose.rabbitmq.yml up -d redis rabbit build_db superhero_server superhero_nginx player --scale player=${PLAYERS}
 ```
 
 Then we can begin deploying worker services locally for debugging with
@@ -122,7 +122,7 @@ RabbitMQ's performance can be measured, and visualized, with the RabbitMQ Manage
 Here we're going to evaluate how RabbitMQ operates within our Data Simulation. We can deploy a trial experiment running a [Production Deployment](#production-deployment) with a single worker following the script below
 
 #### Production Deployment
-{{< details "Video Demonstration" >}}
+{{< details header="Video Demonstration" icon="icons/video-icon.svg" >}}
   {{< google-drive-video "1hnetnp5bKAYSgB3ZAEMR8D7gooQHhc6u" >}}
 {{< /details >}}
 
@@ -130,36 +130,36 @@ Spinning up a production application with docker-compose is simple. Follow the c
 
 ```bash
 export PLAYERS=10
-docker-compose --env-file rabbitmq/.env -f rabbitmq/compose/docker-compose.rabbitmq.yml build && \
-docker-compose --env-file rabbitmq/.env -f rabbitmq/compose/docker-compose.rabbitmq.yml up --scale player=${PLAYERS}
+docker compose --env-file rabbitmq/.env -f rabbitmq/compose/docker-compose.rabbitmq.yml build && \
+docker compose --env-file rabbitmq/.env -f rabbitmq/compose/docker-compose.rabbitmq.yml up --scale player=${PLAYERS}
 ```
 #### Production Deployment with Multiple Workers
-{{< details "Video Demonstration" >}}
+{{< details header="Video Demonstration" icon="icons/video-icon.svg" >}}
   {{< google-drive-video "1beJfHWy4BDQfQ4UMVDcf8kPgoiMINhzv" >}}
 {{< /details >}}
 
 ```bash
 export PLAYERS=10
 export WORKERS=4
-docker-compose --env-file rabbitmq/.env -f rabbitmq/compose/docker-compose.rabbitmq.yml up --scale worker=${WORKERS} --scale player=${PLAYERS}
+docker compose --env-file rabbitmq/.env -f rabbitmq/compose/docker-compose.rabbitmq.yml up --scale worker=${WORKERS} --scale player=${PLAYERS}
 ```
 
 We can see this first trial run has met our expectations, which are the ingestion pipelines ran at most once when we scaled the worker services so no duplication has occurred. However, our past experiment with [Redis and Narrowcasting](/pub-sub/redis-narrowcast#objetive) was also successful in running its data ingestion pipeline at most once, but failed to resiliently process messages when no Subscriber was actively listening to the channel. Let's experiment with RabbitMQ how resilient the Message Queue can be by mocking a scenario where all workers are dead while the Data Simulation is running, but return once it's complete.
 
 #### Production Deployment with Dead Workers\
-{{< details "Video Demonstration" >}}
+{{< details header="Video Demonstration" icon="icons/video-icon.svg" >}}
   {{< google-drive-video "1Ld8GtZ5Oy-GxQefBEL4ijxBhXxZMNMS-" >}}
 {{< /details >}}
 
 ```bash
 export PLAYERS=10
-docker-compose --env-file rabbitmq/.env -f rabbitmq/compose/docker-compose.rabbitmq.yml up --scale worker=0 --scale player=${PLAYERS}
+docker compose --env-file rabbitmq/.env -f rabbitmq/compose/docker-compose.rabbitmq.yml up --scale worker=0 --scale player=${PLAYERS}
 ```
 
 *After the simulation has completed*
 ```bash
 export WORKERS=4
-docker-compose --env-file rabbitmq/.env -f rabbitmq/compose/docker-compose.rabbitmq.yml up --scale worker=${WORKERS}
+docker compose --env-file rabbitmq/.env -f rabbitmq/compose/docker-compose.rabbitmq.yml up --scale worker=${WORKERS}
 ```
 
 In this scenario, we can observe all the messages produced during the Data Simulation were successfully stored in RabbitMQ while workers were waiting to start listening to the Topic. After the workers scaled back up, the queue began to drop as log messages were processed by the workers/consumers. This is a great example of the resiliency we're looking for when needing to process messages at most once. We can conclude that, given the volume and velocity of messages produced and consumed in this Data Simulation, RabbitMQ can handle our needs without issues.

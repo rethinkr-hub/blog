@@ -54,7 +54,7 @@ To achieve seamless interoperability during the evaluation trials, we opted for 
 In order to better understand the Logging Transport functionality, let's take a better look at *what's under the hood* in the Superhero Combat Data Simulator application. For instance, this simulator comes with 2 built-in loggers already configured.
 
 #### Default Logger
-{{< details "Github Code" >}}
+{{< details header="Github Code" icon="icons/github-icon.svg" >}}
   {{< get-script "https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjg-ghub%2Fpy-superhero%2Fblob%2Fmain%2Flib%2Futils%2Floggers%2Fdefault.py&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on" >}}
 {{</ details >}}
 
@@ -64,7 +64,7 @@ A basic logging configuration which outputs log messages to STDOUT with a specif
  * `default.game` is the Logger for the game channel using the **Default Logger** handler
 
 #### Redis Logger
-{{< details "Github Code" >}}
+{{< details header="Github Code" icon="icons/github-icon.svg" >}}
   {{< get-script "https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjg-ghub%2Fpy-superhero%2Fblob%2Fmain%2Flib%2Futils%2Floggers%2Fredis.py&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on">}}
 {{</ details >}}
 

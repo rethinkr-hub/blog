@@ -24,7 +24,7 @@ params:
   title: Rethinkr Blog
   description: "A blog exploring data architecture and AI with reproducible tutorials beyond the surface level"
   keywords: [Blog, Portfolio, PaperMod]
-  mainSections: ["data-simulators", "pub-sub"]
+  mainSections: ["data-simulators", "pub-sub", data-flow]
   author: Jason Grein
   # author: ["Me", "You"] # multiple authors
   images: ["img/blog-home-logo.png"]

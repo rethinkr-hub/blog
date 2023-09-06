@@ -51,13 +51,13 @@ The generation of data is possible via the logging message transport. The Data S
 
 ## Install
 
-Clone this repository to local computer **[py-superhero-pubsub](https://github.com/jg-ghub/py-superhero-pubsub)** {{< svg-icon "github" >}}
+Clone this repository to local computer **[py-superhero-pubsub](https://github.com/jg-ghub/py-superhero-pubsub)** {{< svg-icon "github-icon" >}}
 ```bash
 git clone https://github.com/jg-ghub/py-superhero-pubsub
 ```
 
 ## Services
-{{< details "Schematic" >}}
+{{< details header="Schematic" icon="icons/flow-icon.svg" >}}
   {{< get-html "content/pub-sub/kafka/worker-schematic.html" >}}
 {{</ details >}}
 
@@ -65,7 +65,7 @@ git clone https://github.com/jg-ghub/py-superhero-pubsub
 
 **Description**
 In this assessment comparing Kafka as the message distribution technology, we draw on our prior experience with the [Logging Transport](#logging-and-transport). To start using Kafka effectively, our initial step is to integrate the Kafka producer functionality into the Server logging transport. Just as we did with [Redis](/pub-sub/comparison#logging-transport), we create a new Kafka logger transport that generates messages and sends them to Kafka using the logging emit hook.
-{{< details "Github Code" >}}
+{{< details header="Github Code" icon="icons/github-icon.svg" >}}
   {{< get-script "https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Frethinkr-hub%2Fpy-superhero-pubsub%2Fblob%2Fmain%2Fkafka%2Flib%2Futils%2Floggers%2Fkafka.py&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on" >}}
 {{</ details>}}
 
@@ -73,12 +73,12 @@ Similar to [RabbitMQ](/pub-sub/rabbutmq), we instantiate the Kafka logger `lib.u
 
 The Producer and Consumer classes can be found in the `lib.pubsub.kafka` module. Notice how the `Kafka_Consumer` class has been designed with `callback_func` so we can easily plug-and-play the original data ingestion pipeline, which follows the [Factory Method](/pub-sub/redis#worker) pattern we discussed in earlier articles.
 
-{{< details "Github Code" >}}
+{{< details header="Github Code" icon="icons/github-icon.svg" >}}
   {{< get-script "https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Frethinkr-hub%2Fpy-superhero-pubsub%2Fblob%2Fmain%2Fkafka%2Flib%2Fpubsub%2Fkafka.py&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on" >}}
 {{</ details >}}
 
 This allows us to use the same data ingestion pipeline for storing game state from Redis to our local data sink.
-{{< details "Github Code" >}}
+{{< details header="Github Code" icon="icons/github-icon.svg" >}}
   {{< get-script "https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Frethinkr-hub%2Fpy-superhero-pubsub%2Fblob%2Fmain%2Fkafka%2Fworker.py&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on" >}}
 {{</ details >}}
 
@@ -93,7 +93,7 @@ export PLAYERS=10 && \
 
 docker-compose --env-file kafka/.env -f kafka/compose/docker-compose.kafka.yml up -d zookeeper kafka kafka-ui
 #Wait for Kafka-ui to be up and connected to Kafka cluster
-docker-compose -f kafka/compose/docker-compose.kafka.yml up -d redis build_db superhero_server superhero_nginx player --scale player=${PLAYERS}
+docker compose -f kafka/compose/docker-compose.kafka.yml up -d redis build_db superhero_server superhero_nginx player --scale player=${PLAYERS}
 ```
 
 Then we can begin deploying worker services locally for debugging with
@@ -113,7 +113,7 @@ Kafka's performance can be measured with the Kafka UI application. Kafka UI is s
 Here we're going to evaluate how Kafka operates within our Data Simulation. We can deploy all the same trial experiments run against Rabbit MQ with these [Production Deployment](#production-deployment) scenarios below
 
 #### Production Deployment
-{{< details "Video Demonstration" >}}
+{{< details header="Video Demonstration" icon="icons/video-icon.svg" >}}
   {{< google-drive-video "1-QHW33LD6SOpVINdn4NWLvnnSizJC6dD" >}}
 {{< /details >}}
 
@@ -121,32 +121,32 @@ Spinning up a production application with docker-compose is simple. Follow the c
 
 ```bash
 export PLAYERS=10
-docker-compose --env-file kafka/.env -f kafka/compose/docker-compose.kafka.yml build && \
-docker-compose --env-file kafka/.env -f kafka/compose/docker-compose.kafka.yml up -d zookeeper kafka kafka-ui
+docker compose --env-file kafka/.env -f kafka/compose/docker-compose.kafka.yml build && \
+docker compose --env-file kafka/.env -f kafka/compose/docker-compose.kafka.yml up -d zookeeper kafka kafka-ui
 #Wait for Kafka-ui to be up and connected to Kafka cluster
-docker-compose --env-file kafka/.env -f kafka/compose/docker-compose.kafka.yml up --scale player=${PLAYERS}
+docker compose --env-file kafka/.env -f kafka/compose/docker-compose.kafka.yml up --scale player=${PLAYERS}
 ```
 #### Production Deployment with Multiple Workers
 ```bash
 export PLAYERS=10
 export WORKERS=4
-docker-compose --env-file kafka/.env -f kafka/compose/docker-compose.kafka.yml up --scale worker=${WORKERS} --scale player=${PLAYERS}
+docker compose --env-file kafka/.env -f kafka/compose/docker-compose.kafka.yml up --scale worker=${WORKERS} --scale player=${PLAYERS}
 ```
 
 #### Production Deployment with Dead Workers\
-{{< details "Video Demonstration" >}}
+{{< details header="Video Demonstration" icon="icons/video-icon.svg" >}}
   {{< google-drive-video "1psVs04ij2zKJ1lhhd5_0FDbsXwiXDzY7" >}}
 {{< /details >}}
 
 ```bash
 export PLAYERS=10
-docker-compose --env-file kafka/.env -f kafka/compose/docker-compose.kafka.yml up --scale worker=0 --scale player=${PLAYERS}
+docker compose --env-file kafka/.env -f kafka/compose/docker-compose.kafka.yml up --scale worker=0 --scale player=${PLAYERS}
 ```
 
 *After the simulation has completed*
 ```bash
 export WORKERS=4
-docker-compose --env-file kafka/.env -f kafka/compose/docker-compose.kafka.yml up --scale worker=${WORKERS}
+docker compose --env-file kafka/.env -f kafka/compose/docker-compose.kafka.yml up --scale worker=${WORKERS}
 ```
 
 Unsurprisingly, Kafka has performed the same as RabbitMQ against the same types of scenarios. In order to truly understand which Message Queue system is truly better with our Data Simulator, we would really need to scale up operations. Perhaps in a future article we can attempt to find who's more performant. Until then we can say that both satisfy our current requirements, but do provide different strengths and weaknesses in their own. Many of Kafka's favorable traits include

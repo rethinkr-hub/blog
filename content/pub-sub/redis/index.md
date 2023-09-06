@@ -51,13 +51,13 @@ The generation of data is possible via the logging message transport. The Data S
 
 ## Install
 
-Clone this repository to local computer **[py-superhero-pubsub](https://github.com/jg-ghub/py-superhero-pubsub)** {{< svg-icon "github" >}}
+Clone this repository to local computer **[py-superhero-pubsub](https://github.com/jg-ghub/py-superhero-pubsub)** {{< svg-icon "github-icon" >}}
 ```bash
 git clone https://github.com/jg-ghub/py-superhero-pubsub
 ```
 
 ## Services
-{{< details "Schematic" >}}
+{{< details header="Schematic" icon="icons/flow-icon.svg" >}}
   {{< get-html "content/pub-sub/redis/worker-schematic.html" >}}
 {{</ details >}}
 
@@ -67,19 +67,19 @@ git clone https://github.com/jg-ghub/py-superhero-pubsub
 Here we expand on the [Original Worker](/data-simulators/superhero-combat#workers) service to not only clean up stale records, but also persist the log messages to a local data sink. At the end of each game, the Server publishes a message to the `lib.server.lobby` channel in Redis where this worker subscribes to. The worker subscribes messages containing `'Cleaning Game Records'`, which signifies that the game has completed and can proceed to extract and load the game state from Redis to JSON in the local data sink.
 
 We already touched on the [Logging Transport](#logging-and-transport) in the [Prerequisites](#prerequisites), which links to the more in-depth article to explain of how messages are published for the worker service to listens to. Now, we'll look more closely into our worker's Subscription operations. We can first start off with our worker's [Factory Method](https://realpython.com/factory-method-python/) pattern. This design pattern allows us to interchange a Subscription class like `Redis_Subscriber` and a common routine into a worker script which continuously waits for instructions.
-{{< details "Github Code" >}}
+{{< details header="Github Code" icon="icons/github-icon.svg" >}}
   {{< get-script "https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjg-ghub%2Fpy-superhero-pubsub%2Fblob%2Fmain%2Fredis%2Fworker.py&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on" >}}
 {{</ details >}}
 
 The Subscriber class will connect to its respective messaging application (in this case Redis), and wait for messages to be delivered. Once a message is received, the Factory Method `callback_function` is executed against the message, and in this case the message is log data which is passed to an ingestion pipeline.
-{{< details "Github Code" >}}
+{{< details header="Github Code" icon="icons/github-icon.svg" >}}
   {{< get-script "https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjg-ghub%2Fpy-superhero-pubsub%2Fblob%2Fmain%2Fredis%2Flib%2Fpubsub%2Fredis.py&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on" >}}
 {{< /details >}}
 
 This design pattern allows us to interchange a Subscription class like `Redis_Subscriber` and a common routine into a worker script which continuously waits for instructions. This pattern helps us integrate a common routine, like ETL, and ingestion pipelines into different Pub/Sub applications with their own unique Subscription class. Now that we've found a simple way to decouple different Pub/Sub applications with our Factory Method class and script, next let's look at what our common data ingestion pipeline looks like.
 
 Like mentioned earlier, we've expanded on the original worker service so the first function `clean` is coming from our original worker script. Further down, we've created some new common data cleaning functions to run streaming ETL tasks across sub-categories of game state like Game Meta Data & Game Podium Data. These functions help to organize/de-duplicate specific game state from redis so we can have cleaner data for analysis from our data sink. Finally, we have the `sub_routine` function which is our common method in the worker factory. This helps us to transform/decode the messages from bytes to JSON content before cleaning and then loading into the local data sink.
-{{< details "Github Code" >}}
+{{< details header="Github Code" icon="icons/github-icon.svg" >}}
   {{< get-script "https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjg-ghub%2Fpy-superhero-pubsub%2Fblob%2Fmain%2Fredis%2Flib%2Fworker%2F__init__.py&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on" >}}
 {{</ details >}}
 
@@ -91,7 +91,7 @@ To test/debug the worker service, we can start up the services required to begin
 ```bash
 export $(cat redis/.env) && \
 export PLAYERS=10 && \
-docker-compose -f redis/compose/docker-compose.redis.yml up -d redis build_db superhero_server superhero_nginx player --scale player=${PLAYERS}
+docker compose -f redis/compose/docker-compose.redis.yml up -d redis build_db superhero_server superhero_nginx player --scale player=${PLAYERS}
 ```
 
 Then we can begin deploying worker services locally for debugging with
@@ -109,7 +109,7 @@ In this demonstration, we want to evaluate how well Redis can handle Pub/Sub mes
 Redis Pub/Sub offers a very simplistic and easy to use messaging framework out-of-the-box. It's already acting as the Super Hero Combat Data Simulator's DB Key Store on the application side, so making use of it's Pub/Sub feature is a *no-brainer*. We can deploy a trial experiment running a [Production Deployment](#production-deployment---single-worker) with a single worker following the script below. 
 
 #### Production Deployment - Single Worker
-{{< details "Video Demonstration" >}}
+{{< details header="Video Demonstration" icon="icons/video-icon.svg" >}}
   {{< google-drive-video "1hDwU8IpLlkZx-xlH2DI_W0QfYhxF05mP" >}}
 {{< /details >}}
 
@@ -117,8 +117,8 @@ Spinning up a production application with docker-compose is simple. Follow the c
 
 ```bash
 export PLAYERS=10
-docker-compose --env-file redis/.env -f redis/compose/docker-compose.redis.yml build && \
-docker-compose --env-file redis/.env -f redis/compose/docker-compose.redis.yml up --scale player=${PLAYERS}
+docker compose --env-file redis/.env -f redis/compose/docker-compose.redis.yml build && \
+docker compose --env-file redis/.env -f redis/compose/docker-compose.redis.yml up --scale player=${PLAYERS}
 ```
 
 Running this application on a local environment, using a small amount of Player Services, with Redis' built-in Pub/Sub works wonders - it handles the payload effectively. 
@@ -126,15 +126,15 @@ Running this application on a local environment, using a small amount of Player 
 Next we need to be able to scale the Deployment with multiple workers. we can deploy a similar trial experiment run a [Product Deployment](#production-deployment---multiple-workers) with multiple workers. We can scale the workers with the following
 
 #### Production Deployment - Multiple Workers
-{{< details "Video Demonstration" >}}
+{{< details header="Video Demonstration" icon="icons/video-icon.svg" >}}
   {{< google-drive-video "1-z9myZXMu-H8CnC2XOGjmYeUjSy4M8-d" >}}
 {{< /details >}}
 
 ```bash
 export PLAYERS=10
 export WORKERS=4
-docker-compose --env-file redis/.env -f redis/compose/docker-compose.redis.yml build && \
-docker-compose --env-file redis/.env -f redis/compose/docker-compose.redis.yml up --scale worker=${WORKERS} --scale player=${PLAYERS}
+docker compose --env-file redis/.env -f redis/compose/docker-compose.redis.yml build && \
+docker compose --env-file redis/.env -f redis/compose/docker-compose.redis.yml up --scale worker=${WORKERS} --scale player=${PLAYERS}
 ```
 
 This trial experiment unfortunately suffers from scalability issues when we try to add more workers attempting to create some efficiency. Redis' simplicity effectively breaks the out-of-the-box solution for our needs. The Redis Pub/Sub mechanism is a Broadcast message to all Subscribers listening to our channel `lib.server.lobby`, which means that all workers receive the same message. This doesn't help provide us more efficiency when we scale our workers - instead it causes duplication.

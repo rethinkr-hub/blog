@@ -1,4 +1,17 @@
 <details>
-  <summary><span> {{ (.Get 0) | markdownify }} </span></summary>
-  {{ .Inner }}
+  <summary>
+    <span>
+      {{ with .Get "header" }}
+        {{ . | markdownify }}
+      {{ end }}
+    </span>
+    {{ with .Get "icon" }}
+      {{ readFile . | safeHTML }}
+    {{ end }}
+  </summary>
+  {{ if isset .Params "markdown" }}
+    {{ .Inner | markdownify }}
+  {{ else }}
+    {{ .Inner }}
+  {{ end }}
 </details>

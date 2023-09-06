@@ -4,6 +4,11 @@
 
 summary span {
   cursor: pointer;
+  padding-right: 0.25rem;
+}
+
+summary svg {
+  cursor: pointer;
 }
 
 .blog-card {
